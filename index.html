@@ -1,11 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f7f5f0">
-  <title>5分トレーニング</title>
+  <title>脱★運動不足トレーニング</title>
 
   <style>
     * {
@@ -36,13 +35,6 @@
     header {
       text-align: center;
       margin-bottom: 20px;
-    }
-
-    .app-title {
-      font-size: 14px;
-      letter-spacing: 0.15em;
-      color: #888;
-      margin-bottom: 5px;
     }
 
     h1 {
@@ -92,53 +84,103 @@
       border-radius: 24px;
       padding: 30px 22px;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
     }
 
-    .step-label {
-      font-size: 13px;
-      color: #999;
-      margin-bottom: 10px;
-    }
+    /* =========================
+       運動画像
+    ========================== */
 
     .exercise-icon {
-      font-size: 58px;
-      margin: 8px 0 15px;
+      width: 180px;
+      height: 180px;
+      margin: 8px auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .exercise-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 20px;
+      display: block;
     }
 
     .exercise-name {
       font-size: 26px;
       font-weight: 700;
-      margin: 0 0 12px;
+      margin: 0 0 18px;
+    }
+
+    /* =========================
+       説明
+    ========================== */
+
+    .description-toggle {
+      display: inline-block;
+      background: transparent;
+      color: #777;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 4px;
+      margin-bottom: 8px;
+    }
+
+    .description-toggle:hover {
+      opacity: 0.7;
     }
 
     .exercise-description {
-      font-size: 15px;
-      line-height: 1.8;
+      display: none;
+      text-align: left;
+      background: #faf9f6;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 0 auto 20px;
+      max-width: 400px;
       color: #666;
-      margin: 0 auto 22px;
-      max-width: 390px;
+      font-size: 14px;
+      line-height: 1.8;
     }
 
+    .exercise-description.open {
+      display: block;
+    }
+
+    .exercise-description ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .exercise-description li {
+      margin-bottom: 5px;
+    }
+
+    .exercise-description li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* =========================
+       目標
+    ========================== */
+
     .target {
-      display: inline-block;
-      background: #f3f1ec;
-      border-radius: 999px;
-      padding: 8px 18px;
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 20px;
+      display: block;
+      background: #d94a4a;
+      color: white;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 20px;
+      font-weight: 700;
+      margin: 8px auto 22px;
+      max-width: 120px;
     }
 
     /* =========================
        タイマー
     ========================== */
-
-    .timer-label {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 4px;
-    }
 
     .timer {
       font-size: 48px;
@@ -161,37 +203,16 @@
     }
 
     /* =========================
-       回数カウンター
+       回数達成ボタン
     ========================== */
 
-    .rep-counter {
-      margin: 10px 0 20px;
-    }
-
-    .rep-number {
-      font-size: 56px;
-      font-weight: 700;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .rep-target {
-      margin-top: 8px;
-      color: #999;
-      font-size: 14px;
-    }
-
-    .count-button {
+    .rep-complete-button {
       width: 100%;
       background: #333;
       color: white;
-      font-size: 20px;
-      padding: 18px;
+      font-size: 18px;
+      padding: 17px;
       margin-bottom: 10px;
-    }
-
-    .count-button:disabled {
-      opacity: 0.35;
     }
 
     /* =========================
@@ -308,16 +329,17 @@
         padding: 24px 17px;
       }
 
+      .exercise-icon {
+        width: 160px;
+        height: 160px;
+      }
+
       .exercise-name {
         font-size: 23px;
       }
 
       .timer {
         font-size: 42px;
-      }
-
-      .rep-number {
-        font-size: 50px;
       }
     }
   </style>
@@ -328,8 +350,7 @@
 <div class="app">
 
   <header>
-    <div class="app-title">TODAY'S WORKOUT</div>
-    <h1>🌱 5分トレーニング</h1>
+    <h1>🌱 脱★運動不足トレーニング</h1>
   </header>
 
 
@@ -358,15 +379,13 @@
 
     <div class="card">
 
-      <div class="step-label">
-        EXERCISE
-      </div>
+      <!-- 運動画像 -->
 
-
-      <div
-        class="exercise-icon"
-        id="exerciseIcon">
-        🚶
+      <div class="exercise-icon">
+        <img
+          id="exerciseImage"
+          src="https://marutsu222.github.io/undong/image/ashibumi.png"
+          alt="その場で足踏み">
       </div>
 
 
@@ -377,13 +396,25 @@
       </h2>
 
 
-      <p
+      <!-- 説明を見る -->
+
+      <button
+        class="description-toggle"
+        id="descriptionToggle"
+        onclick="toggleDescription()">
+        説明を見る ▼
+      </button>
+
+
+      <!-- 詳細説明 -->
+
+      <div
         class="exercise-description"
         id="exerciseDescription">
-        背筋を軽く伸ばして、右足・左足と交互にその場で足踏み。
-        腕も自然に振りましょう。
-      </p>
+      </div>
 
+
+      <!-- 目標 -->
 
       <div
         class="target"
@@ -392,46 +423,12 @@
       </div>
 
 
-      <!-- =====================
-           時間表示
-      ====================== -->
-
-      <div id="timerArea">
-
-        <div class="timer-label">
-          取り組み時間
-        </div>
-
-        <div
-          class="timer"
-          id="timer">
-          00:00
-        </div>
-
-      </div>
-
-
-      <!-- =====================
-           回数表示
-      ====================== -->
+      <!-- タイマー -->
 
       <div
-        class="rep-counter"
-        id="repArea"
-        style="display:none;">
-
-        <div
-          class="rep-number"
-          id="repNumber">
-          0
-        </div>
-
-        <div
-          class="rep-target"
-          id="repTarget">
-          / 10回
-        </div>
-
+        class="timer"
+        id="timer">
+        00:00
       </div>
 
 
@@ -442,24 +439,20 @@
       </div>
 
 
-      <!-- =====================
-           回数カウントボタン
-      ====================== -->
+      <!-- 回数系専用 -->
 
       <button
-        class="count-button"
-        id="countButton"
-        onclick="countRep()"
+        class="rep-complete-button"
+        id="repCompleteButton"
+        onclick="completeReps()"
         style="display:none;">
-        ＋ 1回
+        ✓ 10回達成
       </button>
 
 
-      <!-- =====================
-           操作ボタン
-      ====================== -->
-
       <div class="buttons">
+
+        <!-- スタート -->
 
         <button
           class="start-button"
@@ -468,6 +461,8 @@
           ▶ スタート
         </button>
 
+
+        <!-- 一時停止 -->
 
         <button
           class="pause-button"
@@ -478,6 +473,8 @@
         </button>
 
 
+        <!-- もう一度 -->
+
         <button
           class="repeat-button"
           id="repeatButton"
@@ -487,6 +484,8 @@
         </button>
 
 
+        <!-- 次へ -->
+
         <button
           class="next-button"
           id="nextButton"
@@ -495,6 +494,8 @@
           次の種目へ →
         </button>
 
+
+        <!-- 前へ -->
 
         <button
           class="back-button"
@@ -507,11 +508,12 @@
       </div>
 
 
+      <!-- アドバイス -->
+
       <div
         class="tip"
         id="exerciseTip">
-        💡 無理に膝を高く上げなくてOK。
-        「その場で歩く」くらいの感覚で大丈夫！
+        💡 「その場で歩く」くらいの感覚で大丈夫！
       </div>
 
     </div>
@@ -567,95 +569,202 @@
 
   /* =========================
      トレーニングメニュー
-     
-     type:
-       "time" = 時間制
-       "reps" = 回数制
   ========================== */
 
   const exercises = [
 
+    /* 1. その場で足踏み */
+
     {
       type: "time",
-      icon: "🚶",
+
+      image:
+        "https://marutsu222.github.io/undong/image/ashibumi.png",
+
       name: "その場で足踏み",
-      description:
-        "背筋を軽く伸ばして、右足・左足と交互にその場で足踏み。腕も自然に振りましょう。",
+
+      description: [
+        "背筋を軽く伸ばして立つ。",
+        "右足・左足と交互に、その場で足踏みする。",
+        "腕も自然に前後へ振る。",
+        "無理に膝を高く上げる必要はありません。"
+      ],
+
       target: "⏱ 1分",
+
       tip:
-        "💡 無理に膝を高く上げなくてOK。「その場で歩く」くらいの感覚で大丈夫！",
+        "💡 「その場で歩く」くらいの感覚で大丈夫！",
+
       targetSeconds: 60
     },
 
+
+    /* 2. スクワット */
+
     {
       type: "reps",
-      icon: "🪑",
+
+      image:
+        "https://marutsu222.github.io/undong/image/squat.png",
+
       name: "スクワット",
-      description:
-        "足を肩幅くらいに開き、お尻を後ろに引くようにゆっくり腰を下ろします。",
+
+      description: [
+        "足を肩幅くらいに開いて立つ。",
+        "つま先は少し外側に向ける。",
+        "お尻を後ろに引くように、ゆっくり腰を下ろす。",
+        "膝がつま先より極端に前へ出ないようにする。",
+        "無理に深くしゃがむ必要はありません。",
+        "ゆっくり立ち上がる。",
+        "これを10回行う。"
+      ],
+
       target: "🔢 10回",
+
       tip:
-        "💡 「椅子に座る」イメージで。最初は浅くしゃがむだけでもOK！",
+        "💡 「椅子に座る」イメージで。浅めのスクワットから始めてもOK！",
+
       targetReps: 10
     },
 
+
+    /* 3. 壁腕立て */
+
     {
       type: "reps",
-      icon: "🙌",
+
+      image:
+        "https://marutsu222.github.io/undong/image/kabeudetate.png",
+
       name: "壁腕立て",
-      description:
-        "壁に両手をつき、肘を曲げて胸を壁に近づけ、壁を押して元に戻ります。",
+
+      description: [
+        "壁から少し離れて立つ。",
+        "両手を肩幅くらいに開いて壁につく。",
+        "体を頭から足までなるべく一直線にする。",
+        "肘をゆっくり曲げて、胸を壁に近づける。",
+        "壁を押して、ゆっくり元の姿勢に戻る。",
+        "これを10回行う。"
+      ],
+
       target: "🔢 10回",
+
       tip:
-        "💡 体をなるべく一直線に。床でやる腕立て伏せよりずっと簡単です。",
+        "💡 床でやる腕立て伏せよりずっと簡単です。体を一直線に保つことを意識しましょう。",
+
       targetReps: 10
     },
 
+
+    /* 4. ヒップリフト */
+
     {
       type: "reps",
-      icon: "🌉",
+
+      image:
+        "https://marutsu222.github.io/undong/image/hip-lift.png",
+
       name: "ヒップリフト",
-      description:
-        "仰向けになり膝を曲げます。お尻をキュッと締めながらゆっくり持ち上げましょう。",
-      target: "🔢 10〜15回",
+
+      description: [
+        "仰向けになり、膝を曲げる。",
+        "足を腰幅くらいに開き、足の裏を床につける。",
+        "お腹に軽く力を入れる。",
+        "お尻をキュッと締めながら、ゆっくり持ち上げる。",
+        "肩から膝までがなだらかな一直線になるところまで上げる。",
+        "腰を反らしすぎないようにする。",
+        "一度止まり、ゆっくりお尻を下ろす。",
+        "これを10回行う。"
+      ],
+
+      target: "🔢 10回",
+
       tip:
-        "💡 腰を反らすのではなく、お尻で持ち上げるイメージです。",
+        "💡 腰を反らすのではなく、「お尻で持ち上げる」イメージです。",
+
       targetReps: 10
     },
 
+
+    /* 5. かかと上げ */
+
     {
       type: "reps",
-      icon: "🦶",
+
+      image:
+        "https://marutsu222.github.io/undong/image/kakatoage.png",
+
       name: "かかと上げ",
-      description:
-        "まっすぐ立ち、両方のかかとをゆっくり上げて、ゆっくり下ろします。",
-      target: "🔢 15〜20回",
+
+      description: [
+        "まっすぐ立ち、足を肩幅くらいに開く。",
+        "必要なら壁や机に手をつく。",
+        "両方のかかとをゆっくり持ち上げる。",
+        "つま先立ちになったところで少し止める。",
+        "ゆっくりかかとを下ろす。",
+        "反動を使わず、ゆっくり繰り返す。",
+        "これを15回行う。"
+      ],
+
+      target: "🔢 15回",
+
       tip:
-        "💡 ふらつく場合は、壁や机につかまってOK。反動をつけずにゆっくり！",
+        "💡 ふらつく場合は、壁や机につかまってOKです。",
+
       targetReps: 15
     },
 
-    {
-      type: "time",
-      icon: "🚶‍♀️",
-      name: "その場で足踏み",
-      description:
-        "もう一度その場で足踏み。今度は少しだけ元気よく、腕もしっかり振りましょう。",
-      target: "⏱ 1分",
-      tip:
-        "💡 「ちょっと心拍数が上がったな」くらいでOK。頑張りすぎなくて大丈夫！",
-      targetSeconds: 60
-    },
+
+    /* 6. その場で足踏み */
 
     {
       type: "time",
-      icon: "🧘",
-      name: "軽くストレッチ",
-      description:
-        "ふくらはぎ、太ももの前、胸・肩などをゆっくり伸ばして体を整えます。",
-      target: "⏱ 1〜2分",
+
+      image:
+        "https://marutsu222.github.io/undong/image/ashibumi.png",
+
+      name: "その場で足踏み",
+
+      description: [
+        "背筋を軽く伸ばして立つ。",
+        "右足・左足と交互に、その場で足踏みする。",
+        "最初の足踏みより少しだけ元気よく動く。",
+        "腕もしっかり前後に振る。",
+        "息が苦しくならない範囲で行う。"
+      ],
+
+      target: "⏱ 1分",
+
       tip:
-        "💡 痛いところまで伸ばさず、「気持ちいい」と感じるところで止めましょう。",
+        "💡 「ちょっと心拍数が上がったな」くらいでOK。頑張りすぎなくて大丈夫！",
+
+      targetSeconds: 60
+    },
+
+
+    /* 7. 軽くストレッチ */
+
+    {
+      type: "time",
+
+      image:
+        "https://marutsu222.github.io/undong/image/stretch.png",
+
+      name: "軽くストレッチ",
+
+      description: [
+        "ふくらはぎをゆっくり伸ばす。",
+        "太ももの前をゆっくり伸ばす。",
+        "胸や肩をゆっくり開く。",
+        "反動をつけず、ゆっくり呼吸する。",
+        "痛みを感じるところまで無理に伸ばさない。"
+      ],
+
+      target: "⏱ 1〜2分",
+
+      tip:
+        "💡 「痛い」ではなく「気持ちいい」と感じるところで止めましょう。",
+
       targetSeconds: 90
     }
 
@@ -670,8 +779,6 @@
 
   let seconds = 0;
 
-  let reps = 0;
-
   let totalSeconds = 0;
 
   let timerInterval = null;
@@ -680,6 +787,8 @@
 
   let isPaused = false;
 
+  let completed = false;
+
 
   /* =========================
      現在の種目
@@ -687,6 +796,65 @@
 
   function getCurrentExercise() {
     return exercises[currentExercise];
+  }
+
+
+  /* =========================
+     説明の開閉
+  ========================== */
+
+  function toggleDescription() {
+
+    const description =
+      document.getElementById("exerciseDescription");
+
+    const button =
+      document.getElementById("descriptionToggle");
+
+    const isOpen =
+      description.classList.contains("open");
+
+
+    if (isOpen) {
+
+      description.classList.remove("open");
+
+      button.textContent =
+        "説明を見る ▼";
+
+    } else {
+
+      description.classList.add("open");
+
+      button.textContent =
+        "説明を閉じる ▲";
+    }
+  }
+
+
+  /* =========================
+     説明を更新
+  ========================== */
+
+  function updateDescription(exercise) {
+
+    const description =
+      document.getElementById("exerciseDescription");
+
+
+    description.innerHTML =
+      `<ol>
+        ${exercise.description
+          .map(text => `<li>${text}</li>`)
+          .join("")}
+      </ol>`;
+
+
+    description.classList.remove("open");
+
+
+    document.getElementById("descriptionToggle").textContent =
+      "説明を見る ▼";
   }
 
 
@@ -700,20 +868,39 @@
       getCurrentExercise();
 
 
-    document.getElementById("exerciseIcon").textContent =
-      exercise.icon;
+    /* 画像 */
+
+    const image =
+      document.getElementById("exerciseImage");
+
+    image.src =
+      exercise.image;
+
+    image.alt =
+      exercise.name;
+
+
+    /* 種目名 */
 
     document.getElementById("exerciseName").textContent =
       exercise.name;
 
-    document.getElementById("exerciseDescription").textContent =
-      exercise.description;
+
+    /* 目標 */
 
     document.getElementById("exerciseTarget").textContent =
       exercise.target;
 
+
+    /* アドバイス */
+
     document.getElementById("exerciseTip").textContent =
       exercise.tip;
+
+
+    /* 説明 */
+
+    updateDescription(exercise);
 
 
     /* 進捗 */
@@ -736,45 +923,6 @@
       `${percent}%`;
 
 
-    /* 種目タイプ */
-
-    const timerArea =
-      document.getElementById("timerArea");
-
-    const repArea =
-      document.getElementById("repArea");
-
-    const countButton =
-      document.getElementById("countButton");
-
-
-    if (exercise.type === "time") {
-
-      timerArea.style.display = "block";
-
-      repArea.style.display = "none";
-
-      countButton.style.display = "none";
-
-    } else {
-
-      timerArea.style.display = "block";
-
-      repArea.style.display = "block";
-
-      countButton.style.display =
-        isRunning || isPaused
-        ? "block"
-        : "none";
-
-      document.getElementById("repNumber").textContent =
-        reps;
-
-      document.getElementById("repTarget").textContent =
-        `/ ${exercise.targetReps}回`;
-    }
-
-
     updateTimerDisplay();
 
     updateButtons();
@@ -791,20 +939,8 @@
       getCurrentExercise();
 
 
-    let targetReached = false;
-
-
-    if (exercise.type === "time") {
-
-      targetReached =
-        seconds >= exercise.targetSeconds;
-
-    } else {
-
-      targetReached =
-        reps >= exercise.targetReps;
-
-    }
+    const targetReached =
+      completed;
 
 
     const startButton =
@@ -819,14 +955,19 @@
     const nextButton =
       document.getElementById("nextButton");
 
-    const countButton =
-      document.getElementById("countButton");
+    const repCompleteButton =
+      document.getElementById("repCompleteButton");
 
 
     /* スタート */
 
     startButton.style.display =
-      (!isRunning && !isPaused && seconds === 0)
+      (
+        !isRunning &&
+        !isPaused &&
+        seconds === 0 &&
+        !completed
+      )
       ? "block"
       : "none";
 
@@ -834,7 +975,10 @@
     /* 一時停止 */
 
     pauseButton.style.display =
-      (isRunning || isPaused)
+      (
+        isRunning ||
+        isPaused
+      ) && !completed
       ? "block"
       : "none";
 
@@ -845,22 +989,26 @@
       : "⏸ 一時停止";
 
 
-    /* 回数ボタン */
+    /* 回数達成ボタン */
+
+    repCompleteButton.style.display =
+      exercise.type === "reps" &&
+      !completed &&
+      (isRunning || isPaused)
+      ? "block"
+      : "none";
+
+
+    /* 回数達成ボタンを種目ごとに変更 */
 
     if (exercise.type === "reps") {
 
-      countButton.style.display =
-        !targetReached && (isRunning || isPaused)
-        ? "block"
-        : "none";
-
-      countButton.disabled =
-        isPaused || targetReached;
-
+      repCompleteButton.textContent =
+        `✓ ${exercise.targetReps}回達成`;
     }
 
 
-    /* 目標達成後だけ表示 */
+    /* 目標達成後 */
 
     repeatButton.style.display =
       targetReached
@@ -888,13 +1036,23 @@
       document.getElementById("timerStatus");
 
 
-    if (targetReached) {
+    if (completed) {
 
-      status.textContent =
-        "🎉 目標達成！";
+      if (exercise.type === "time") {
+
+        status.textContent =
+          "🎉 目標時間達成！";
+
+      } else {
+
+        status.textContent =
+          `🎉 ${exercise.targetReps}回達成！`;
+      }
+
 
       status.className =
         "timer-status complete";
+
 
     } else if (isPaused) {
 
@@ -903,6 +1061,7 @@
 
       status.className =
         "timer-status";
+
 
     } else if (isRunning) {
 
@@ -914,11 +1073,13 @@
       } else {
 
         status.textContent =
-          "フォームを意識して、ゆっくり！";
+          `${exercise.targetReps}回できたら「${exercise.targetReps}回達成」を押そう！`;
       }
+
 
       status.className =
         "timer-status";
+
 
     } else {
 
@@ -933,12 +1094,14 @@
 
 
   /* =========================
-     スタート
+     タイマー開始
   ========================== */
 
   function startTimer() {
 
-    if (isRunning) return;
+    if (isRunning || completed) {
+      return;
+    }
 
 
     isRunning = true;
@@ -955,6 +1118,30 @@
 
         updateTimerDisplay();
 
+
+        const exercise =
+          getCurrentExercise();
+
+
+        /* 時間系は目標時間で自動終了 */
+
+        if (
+          exercise.type === "time" &&
+          seconds >= exercise.targetSeconds
+        ) {
+
+          clearInterval(timerInterval);
+
+          timerInterval = null;
+
+          isRunning = false;
+
+          isPaused = false;
+
+          completed = true;
+        }
+
+
         updateButtons();
 
       }, 1000);
@@ -970,6 +1157,11 @@
 
   function togglePause() {
 
+    if (completed) {
+      return;
+    }
+
+
     if (isRunning) {
 
       clearInterval(timerInterval);
@@ -979,6 +1171,7 @@
       isRunning = false;
 
       isPaused = true;
+
 
     } else if (isPaused) {
 
@@ -996,6 +1189,28 @@
 
           updateTimerDisplay();
 
+
+          const exercise =
+            getCurrentExercise();
+
+
+          if (
+            exercise.type === "time" &&
+            seconds >= exercise.targetSeconds
+          ) {
+
+            clearInterval(timerInterval);
+
+            timerInterval = null;
+
+            isRunning = false;
+
+            isPaused = false;
+
+            completed = true;
+          }
+
+
           updateButtons();
 
         }, 1000);
@@ -1007,10 +1222,10 @@
 
 
   /* =========================
-     回数カウント
+     回数達成
   ========================== */
 
-  function countRep() {
+  function completeReps() {
 
     const exercise =
       getCurrentExercise();
@@ -1021,40 +1236,23 @@
     }
 
 
-    if (!isRunning || isPaused) {
+    if (completed) {
       return;
     }
 
 
-    if (reps >= exercise.targetReps) {
-      return;
-    }
+    clearInterval(timerInterval);
 
+    timerInterval = null;
 
-    reps++;
+    isRunning = false;
 
+    isPaused = false;
 
-    document.getElementById("repNumber").textContent =
-      reps;
+    completed = true;
 
 
     updateButtons();
-
-
-    /* 目標達成 */
-
-    if (reps >= exercise.targetReps) {
-
-      /* タイマーは止めず、
-         その種目を終えた時間まで計測 */
-
-      document.getElementById("timerStatus").textContent =
-        "🎉 目標達成！";
-
-      document.getElementById("timerStatus").className =
-        "timer-status complete";
-    }
-
   }
 
 
@@ -1074,7 +1272,7 @@
 
     seconds = 0;
 
-    reps = 0;
+    completed = false;
 
 
     updateScreen();
@@ -1087,27 +1285,7 @@
 
   function nextExercise() {
 
-    const exercise =
-      getCurrentExercise();
-
-
-    let targetReached;
-
-
-    if (exercise.type === "time") {
-
-      targetReached =
-        seconds >= exercise.targetSeconds;
-
-    } else {
-
-      targetReached =
-        reps >= exercise.targetReps;
-
-    }
-
-
-    if (!targetReached) {
+    if (!completed) {
       return;
     }
 
@@ -1133,7 +1311,7 @@
 
     seconds = 0;
 
-    reps = 0;
+    completed = false;
 
 
     updateScreen();
@@ -1154,12 +1332,17 @@
 
     isPaused = false;
 
+
     currentExercise =
-      Math.max(0, currentExercise - 1);
+      Math.max(
+        0,
+        currentExercise - 1
+      );
+
 
     seconds = 0;
 
-    reps = 0;
+    completed = false;
 
 
     updateScreen();
@@ -1231,9 +1414,9 @@
 
     seconds = 0;
 
-    reps = 0;
-
     totalSeconds = 0;
+
+    completed = false;
 
 
     document.getElementById("workoutScreen").style.display =
@@ -1276,4 +1459,3 @@
 
 </body>
 </html>
-```

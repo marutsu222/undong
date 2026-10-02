@@ -211,19 +211,27 @@
        通常時は非表示
     ========================== */
 
-    .timer-status {
-      display: none;
-      font-size: 14px;
-      color: #555;
-      font-weight: 700;
-      margin: 0 0 10px;
-    }
+     .timer-status {
+  display: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  line-height: 1.4;
+  overflow: hidden;
+}
 
-    .timer-status.complete {
-      display: block;
-      margin: 0 0 10px;
-      line-height: 1.3;
-    }
+.timer-status.complete {
+  display: block;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #555;
+  font-weight: 700;
+}
 
     /* =========================
        回数達成ボタン
@@ -466,7 +474,7 @@
         <div
           class="target"
           id="exerciseTarget">
-          ⏱ 1分
+          1分
         </div>
 
       </div>
@@ -583,7 +591,7 @@
 
       <div class="complete-icon">
         <img
-          src="https://marutsu222.github.io/undong/image/stretch.png"
+          src="https://marutsu222.github.io/undong/image/complete.png"
           alt="トレーニング完了">
       </div>
 
@@ -646,7 +654,7 @@
         "無理に膝を高く上げる必要はありません。"
       ],
 
-      target: "⏱ 1分",
+      target: "1分",
 
       tip:
         "💡 「その場で歩く」くらいの感覚で大丈夫！",
@@ -675,7 +683,7 @@
         "これを10回行う。"
       ],
 
-      target: "🔢 10回",
+      target: "10回",
 
       tip:
         "💡 「椅子に座る」イメージで。浅めのスクワットから始めてもOK！",
@@ -703,7 +711,7 @@
         "これを10回行う。"
       ],
 
-      target: "🔢 10回",
+      target: "10回",
 
       tip:
         "💡 床でやる腕立て伏せよりずっと簡単です。体を一直線に保つことを意識しましょう。",
@@ -733,7 +741,7 @@
         "これを10回行う。"
       ],
 
-      target: "🔢 10回",
+      target: "10回",
 
       tip:
         "💡 腰を反らすのではなく、「お尻で持ち上げる」イメージです。",
@@ -762,7 +770,7 @@
         "これを15回行う。"
       ],
 
-      target: "🔢 15回",
+      target: "15回",
 
       tip:
         "💡 ふらつく場合は、壁や机につかまってOKです。",
@@ -789,7 +797,7 @@
         "息が苦しくならない範囲で行う。"
       ],
 
-      target: "⏱ 1分",
+      target: "1分",
 
       tip:
         "💡 「ちょっと心拍数が上がったな」くらいでOK。頑張りすぎなくて大丈夫！",
@@ -816,7 +824,7 @@
         "痛みを感じるところまで無理に伸ばさない。"
       ],
 
-      target: "⏱ 1〜2分",
+      target: "1分",
 
       tip:
         "💡 「痛い」ではなく「気持ちいい」と感じるところで止めましょう。",
@@ -877,7 +885,7 @@
       description.classList.add("open");
 
       button.textContent =
-        "説明を閉じる ▲";
+        "閉じる ▲";
     }
   }
 

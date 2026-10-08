@@ -87,6 +87,34 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
     }
 
+
+    /* =========================
+       開始画面
+    ========================== */
+
+    .start-screen {
+      text-align: center;
+      padding: 45px 15px;
+    }
+
+    .start-screen h2 {
+      font-size: 28px;
+      margin: 0 0 18px;
+      line-height: 1.5;
+    }
+
+    .start-screen p {
+      color: #777;
+      line-height: 1.8;
+      margin: 0 0 28px;
+    }
+
+    .start-screen .start-button {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
     /* =========================
        運動画像
     ========================== */
@@ -207,46 +235,6 @@
     }
 
     /* =========================
-       タイマーステータス
-       通常時は非表示
-    ========================== */
-
-     .timer-status {
-  display: none;
-  margin: 0 !important;
-  padding: 0 !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  line-height: 1.4;
-  overflow: hidden;
-}
-
-.timer-status.complete {
-  display: block;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 0 8px !important;
-  padding: 0 !important;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #555;
-  font-weight: 700;
-}
-
-    /* =========================
-       回数達成ボタン
-    ========================== */
-
-    .rep-complete-button {
-      width: 100%;
-      background: #333;
-      color: white;
-      font-size: 18px;
-      padding: 17px;
-      margin-bottom: 10px;
-    }
-
-    /* =========================
        ボタン
     ========================== */
 
@@ -283,18 +271,6 @@
     .repeat-button {
       background: #f1efea;
       color: #555;
-    }
-
-    .next-button {
-      background: #333;
-      color: white;
-    }
-
-    .back-button {
-      background: transparent;
-      color: #999;
-      font-size: 13px;
-      padding: 10px;
     }
 
     /* =========================
@@ -422,13 +398,44 @@
        トレーニング画面
   ========================== -->
 
-  <div id="workoutScreen">
+  <!-- =========================
+       最初のスタート画面
+  ========================== -->
+
+  <div id="startScreen">
+
+    <div class="card start-screen">
+
+      <h2>今日も一緒に<br>頑張ろう！</h2>
+
+      <p>
+        これから6種目を続けて行います。<br>
+        各種目は1分間です。<br>
+        音が鳴ったら自動で次の種目へ進みます。
+      </p>
+
+      <button
+        class="start-button"
+        onclick="startWorkout()">
+        ▶ トレーニングスタート
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       トレーニング画面
+  ========================== -->
+
+  <div id="workoutScreen" style="display:none;">
 
     <div class="progress-area">
 
       <div class="progress-text">
-        <span id="progressText">1 / 7</span>
-        <span id="progressPercent">14%</span>
+        <span id="progressText">1 / 6</span>
+        <span id="progressPercent">17%</span>
       </div>
 
       <div class="progress-bar">
@@ -497,68 +504,22 @@
       </div>
 
 
-      <!-- 達成時だけ表示 -->
-
-      <div
-        class="timer-status"
-        id="timerStatus">
-      </div>
-
-
-      <!-- 回数系専用 -->
-
-      <button
-        class="rep-complete-button"
-        id="repCompleteButton"
-        onclick="completeReps()"
-        style="display:none;">
-        ✓ 10回達成
-      </button>
-
+      <!-- 一時停止・やり直す -->
 
       <div class="buttons">
 
         <button
-          class="start-button"
-          id="startButton"
-          onclick="startTimer()">
-          ▶ スタート
-        </button>
-
-
-        <button
           class="pause-button"
           id="pauseButton"
-          onclick="togglePause()"
-          style="display:none;">
+          onclick="togglePause()">
           ⏸ 一時停止
         </button>
-
 
         <button
           class="repeat-button"
           id="repeatButton"
-          onclick="resetExercise()"
-          style="display:none;">
-          🔄 もう一度やる
-        </button>
-
-
-        <button
-          class="next-button"
-          id="nextButton"
-          onclick="nextExercise()"
-          style="display:none;">
-          次の種目へ →
-        </button>
-
-
-        <button
-          class="back-button"
-          id="backButton"
-          onclick="previousExercise()"
-          style="display:none;">
-          ← 前の種目に戻る
+          onclick="resetExercise()">
+          🔄 やり直す
         </button>
 
       </div>
@@ -604,7 +565,7 @@
       <p>
         今日のトレーニング、<br>
         しっかり最後までできました！<br><br>
-        まずは「やった自分」を褒めよう🌱
+        「できた自分」を褒めよう🌱
       </p>
 
 
@@ -619,7 +580,7 @@
       <button
         class="start-button"
         onclick="restartWorkout()">
-        🔄 もう一度やる
+        最初から始める
       </button>
 
     </div>
@@ -640,8 +601,6 @@
     /* 1. その場で足踏み */
 
     {
-      type: "time",
-
       image:
         "https://marutsu222.github.io/undong/image/ashibumi.png",
 
@@ -651,12 +610,13 @@
         "背筋を軽く伸ばして立つ。",
         "右足・左足と交互に、その場で足踏みする。",
         "腕も自然に前後へ振る。",
-        "無理に膝を高く上げる必要はありません。"
       ],
 
       target: "1分",
 
-      tip:
+      
+
+      targetSeconds: 60,tip:
         "💡 「その場で歩く」くらいの感覚で大丈夫！",
 
       targetSeconds: 60
@@ -666,8 +626,6 @@
     /* 2. スクワット */
 
     {
-      type: "reps",
-
       image:
         "https://marutsu222.github.io/undong/image/squat.png",
 
@@ -677,84 +635,67 @@
         "足を肩幅くらいに開いて立つ。",
         "つま先は少し外側に向ける。",
         "お尻を後ろに引くように、ゆっくり腰を下ろす。",
-        "膝がつま先より極端に前へ出ないようにする。",
-        "無理に深くしゃがむ必要はありません。",
         "ゆっくり立ち上がる。",
-        "これを10回行う。"
       ],
 
-      target: "10回",
+      target: "1分",
 
-      tip:
-        "💡 「椅子に座る」イメージで。浅めのスクワットから始めてもOK！",
+      
 
-      targetReps: 10
-    },
+      targetSeconds: 60,tip:
+        "💡 膝がつま先より極端に前へ出ないように。浅めのスクワットから始めてもOK！",
+},
 
 
     /* 3. 壁腕立て */
 
     {
-      type: "reps",
-
       image:
         "https://marutsu222.github.io/undong/image/kabeudetate.png",
 
       name: "壁腕立て",
 
       description: [
-        "壁から少し離れて立つ。",
-        "両手を肩幅くらいに開いて壁につく。",
-        "体を頭から足までなるべく一直線にする。",
-        "肘をゆっくり曲げて、胸を壁に近づける。",
-        "壁を押して、ゆっくり元の姿勢に戻る。",
-        "これを10回行う。"
+        "両手を肩幅くらいに開き、垂直に壁に手をつく。",
+        "背筋を伸ばし、肘を曲げて胸を壁に近づける。",
+        "壁を押して、元の姿勢に戻る。",
       ],
 
-      target: "10回",
+      target: "1分",
 
-      tip:
-        "💡 床でやる腕立て伏せよりずっと簡単です。体を一直線に保つことを意識しましょう。",
+      
 
-      targetReps: 10
-    },
+      targetSeconds: 60,tip:
+        "💡 床でやるよりお手軽♪ 肩甲骨が開くことを意識。",
+},
 
 
     /* 4. ヒップリフト */
 
     {
-      type: "reps",
-
       image:
         "https://marutsu222.github.io/undong/image/hip-lift.png",
 
       name: "ヒップリフト",
 
       description: [
-        "仰向けになり、膝を曲げる。",
-        "足を腰幅くらいに開き、足の裏を床につける。",
-        "お腹に軽く力を入れる。",
+        "仰向けになり、床に対し90度で足を立て、腰幅くらいに開く。",
         "お尻をキュッと締めながら、ゆっくり持ち上げる。",
-        "肩から膝までがなだらかな一直線になるところまで上げる。",
-        "腰を反らしすぎないようにする。",
-        "一度止まり、ゆっくりお尻を下ろす。",
-        "これを10回行う。"
+        "膝から肩まで一直線にさせ、一度止まり、お尻を下ろす。",
       ],
 
-      target: "10回",
+      target: "1分",
 
-      tip:
-        "💡 腰を反らすのではなく、「お尻で持ち上げる」イメージです。",
+      
 
-      targetReps: 10
-    },
+      targetSeconds: 60,tip:
+        "💡 腰を上げすぎて反らすのではなく、「お尻で持ち上げる」イメージ。",
+},
 
 
     /* 5. かかと上げ */
 
     {
-      type: "reps",
-
       image:
         "https://marutsu222.github.io/undong/image/kakatoage.png",
 
@@ -762,28 +703,22 @@
 
       description: [
         "まっすぐ立ち、足を肩幅くらいに開く。",
-        "必要なら壁や机に手をつく。",
-        "両方のかかとをゆっくり持ち上げる。",
-        "つま先立ちになったところで少し止める。",
+        "かかとをゆっくり持ち上げ、つま先立ちで少し止める。",
         "ゆっくりかかとを下ろす。",
-        "反動を使わず、ゆっくり繰り返す。",
-        "これを15回行う。"
       ],
 
-      target: "15回",
+      target: "1分",
 
-      tip:
-        "💡 ふらつく場合は、壁や机につかまってOKです。",
+      
 
-      targetReps: 15
-    },
+      targetSeconds: 60,tip:
+        "💡 ふらつく場合は、壁や机につかまってOK。",
+},
 
 
     /* 6. その場で足踏み */
 
     {
-      type: "time",
-
       image:
         "https://marutsu222.github.io/undong/image/ashibumi.png",
 
@@ -792,45 +727,18 @@
       description: [
         "背筋を軽く伸ばして立つ。",
         "右足・左足と交互に、その場で足踏みする。",
-        "最初の足踏みより少しだけ元気よく動く。",
-        "腕もしっかり前後に振る。",
-        "息が苦しくならない範囲で行う。"
+        "腕も自然に前後へ振る。",
       ],
 
       target: "1分",
 
-      tip:
-        "💡 「ちょっと心拍数が上がったな」くらいでOK。頑張りすぎなくて大丈夫！",
+      
+
+      targetSeconds: 60,tip:
+        "💡 「その場で歩く」くらいの感覚で大丈夫！",
 
       targetSeconds: 60
     },
-
-
-    /* 7. 軽くストレッチ */
-
-    {
-      type: "time",
-
-      image:
-        "https://marutsu222.github.io/undong/image/stretch.png",
-
-      name: "軽くストレッチ",
-
-      description: [
-        "ふくらはぎをゆっくり伸ばす。",
-        "太ももの前をゆっくり伸ばす。",
-        "胸や肩をゆっくり開く。",
-        "反動をつけず、ゆっくり呼吸する。",
-        "痛みを感じるところまで無理に伸ばさない。"
-      ],
-
-      target: "1分",
-
-      tip:
-        "💡 「痛い」ではなく「気持ちいい」と感じるところで止めましょう。",
-
-      targetSeconds: 90
-    }
 
   ];
 
@@ -845,7 +753,6 @@
   let timerInterval = null;
   let isRunning = false;
   let isPaused = false;
-  let completed = false;
 
 
   /* =========================
@@ -926,42 +833,27 @@
       getCurrentExercise();
 
 
-    /* 画像 */
-
-    const image =
-      document.getElementById("exerciseImage");
-
-    image.src =
+    document.getElementById("exerciseImage").src =
       exercise.image;
 
-    image.alt =
+    document.getElementById("exerciseImage").alt =
       exercise.name;
 
-
-    /* 種目名 */
 
     document.getElementById("exerciseName").textContent =
       exercise.name;
 
 
-    /* 目標 */
-
     document.getElementById("exerciseTarget").textContent =
       exercise.target;
 
-
-    /* アドバイス */
 
     document.getElementById("exerciseTip").textContent =
       exercise.tip;
 
 
-    /* 説明 */
-
     updateDescription(exercise);
 
-
-    /* 進捗 */
 
     document.getElementById("progressText").textContent =
       `${currentExercise + 1} / ${exercises.length}`;
@@ -983,140 +875,50 @@
 
     updateTimerDisplay();
 
-    updateButtons();
+    updatePauseButton();
   }
 
 
   /* =========================
-     ボタン表示
+     一時停止ボタン表示
   ========================== */
 
-  function updateButtons() {
-
-    const exercise =
-      getCurrentExercise();
-
-
-    const startButton =
-      document.getElementById("startButton");
+  function updatePauseButton() {
 
     const pauseButton =
       document.getElementById("pauseButton");
 
-    const repeatButton =
-      document.getElementById("repeatButton");
-
-    const nextButton =
-      document.getElementById("nextButton");
-
-    const repCompleteButton =
-      document.getElementById("repCompleteButton");
-
-    const status =
-      document.getElementById("timerStatus");
-
-
-    /* スタート */
-
-    startButton.style.display =
-      (
-        !isRunning &&
-        !isPaused &&
-        seconds === 0 &&
-        !completed
-      )
-      ? "block"
-      : "none";
-
-
-    /* 一時停止 */
-
-    pauseButton.style.display =
-      (
-        isRunning ||
-        isPaused
-      ) && !completed
-      ? "block"
-      : "none";
-
-
     pauseButton.textContent =
       isPaused
-      ? "▶ 再開"
-      : "⏸ 一時停止";
+        ? "▶ 再開"
+        : "⏸ 一時停止";
+  }
 
 
-    /* 回数達成ボタン */
+  /* =========================
+     開始
+  ========================== */
 
-    repCompleteButton.style.display =
-      exercise.type === "reps" &&
-      !completed &&
-      (isRunning || isPaused)
-      ? "block"
-      : "none";
+  function startWorkout() {
 
+    document.getElementById("startScreen").style.display =
+      "none";
 
-    if (exercise.type === "reps") {
+    document.getElementById("workoutScreen").style.display =
+      "block";
 
-      repCompleteButton.textContent =
-        `✓ ${exercise.targetReps}回達成`;
-    }
+    currentExercise = 0;
+    seconds = 0;
+    totalSeconds = 0;
+    isRunning = false;
+    isPaused = false;
 
+    updateScreen();
 
-    /* 目標達成後のボタン */
+    // ユーザーのスタート操作後に音声を有効化
+    prepareAudio();
 
-    repeatButton.style.display =
-      completed
-      ? "block"
-      : "none";
-
-
-    nextButton.style.display =
-      completed
-      ? "block"
-      : "none";
-
-
-    /* 前へ */
-
-    document.getElementById("backButton").style.display =
-      currentExercise > 0
-      ? "block"
-      : "none";
-
-
-    /* =========================
-       達成メッセージ
-       達成時だけ表示
-    ========================== */
-
-    if (completed) {
-
-      if (exercise.type === "time") {
-
-        status.textContent =
-          "🎉 目標時間達成！";
-
-      } else {
-
-        status.textContent =
-          `🎉 ${exercise.targetReps}回達成！`;
-      }
-
-      status.className =
-        "timer-status complete";
-
-    } else {
-
-      status.textContent = "";
-
-      status.className =
-        "timer-status";
-    }
-
-
-    /* 実行中・一時停止中の文字は表示しない */
-
+    startTimer();
   }
 
 
@@ -1126,13 +928,14 @@
 
   function startTimer() {
 
-    if (isRunning || completed) {
+    if (isRunning) {
       return;
     }
 
-
     isRunning = true;
     isPaused = false;
+
+    updatePauseButton();
 
 
     timerInterval =
@@ -1148,10 +951,7 @@
           getCurrentExercise();
 
 
-        /* 時間系は目標時間で自動終了 */
-
         if (
-          exercise.type === "time" &&
           seconds >= exercise.targetSeconds
         ) {
 
@@ -1160,19 +960,29 @@
           timerInterval = null;
 
           isRunning = false;
-
           isPaused = false;
 
-          completed = true;
+          playTransitionSound();
+
+          if (currentExercise === exercises.length - 1) {
+
+            showComplete();
+
+            return;
+          }
+
+
+          currentExercise++;
+
+          seconds = 0;
+
+          updateScreen();
+
+          // 次の種目をすぐに開始
+          startTimer();
         }
 
-
-        updateButtons();
-
       }, 1000);
-
-
-    updateScreen();
   }
 
 
@@ -1181,11 +991,6 @@
   ========================== */
 
   function togglePause() {
-
-    if (completed) {
-      return;
-    }
-
 
     if (isRunning) {
 
@@ -1197,91 +1002,23 @@
 
       isPaused = true;
 
+      updatePauseButton();
 
-    } else if (isPaused) {
+      return;
+    }
+
+
+    if (isPaused) {
 
       isPaused = false;
 
-      isRunning = true;
-
-
-      timerInterval =
-        setInterval(() => {
-
-          seconds++;
-          totalSeconds++;
-
-          updateTimerDisplay();
-
-
-          const exercise =
-            getCurrentExercise();
-
-
-          if (
-            exercise.type === "time" &&
-            seconds >= exercise.targetSeconds
-          ) {
-
-            clearInterval(timerInterval);
-
-            timerInterval = null;
-
-            isRunning = false;
-
-            isPaused = false;
-
-            completed = true;
-          }
-
-
-          updateButtons();
-
-        }, 1000);
+      startTimer();
     }
-
-
-    updateScreen();
   }
 
 
   /* =========================
-     回数達成
-  ========================== */
-
-  function completeReps() {
-
-    const exercise =
-      getCurrentExercise();
-
-
-    if (exercise.type !== "reps") {
-      return;
-    }
-
-
-    if (completed) {
-      return;
-    }
-
-
-    clearInterval(timerInterval);
-
-    timerInterval = null;
-
-    isRunning = false;
-
-    isPaused = false;
-
-    completed = true;
-
-
-    updateButtons();
-  }
-
-
-  /* =========================
-     種目をリセット
+     現在の種目をやり直す
   ========================== */
 
   function resetExercise() {
@@ -1290,86 +1027,18 @@
 
     timerInterval = null;
 
-    isRunning = false;
-
-    isPaused = false;
-
     seconds = 0;
-
-    completed = false;
-
-
-    updateScreen();
-  }
-
-
-  /* =========================
-     次の種目
-  ========================== */
-
-  function nextExercise() {
-
-    if (!completed) {
-      return;
-    }
-
-
-    clearInterval(timerInterval);
-
-    timerInterval = null;
 
     isRunning = false;
 
     isPaused = false;
 
+    updateTimerDisplay();
 
-    if (currentExercise === exercises.length - 1) {
+    updatePauseButton();
 
-      showComplete();
-
-      return;
-    }
-
-
-    currentExercise++;
-
-    seconds = 0;
-
-    completed = false;
-
-
-    updateScreen();
-  }
-
-
-  /* =========================
-     前の種目
-  ========================== */
-
-  function previousExercise() {
-
-    clearInterval(timerInterval);
-
-    timerInterval = null;
-
-    isRunning = false;
-
-    isPaused = false;
-
-
-    currentExercise =
-      Math.max(
-        0,
-        currentExercise - 1
-      );
-
-
-    seconds = 0;
-
-    completed = false;
-
-
-    updateScreen();
+    // やり直しを押したら、その種目を最初から開始
+    startTimer();
   }
 
 
@@ -1393,6 +1062,18 @@
 
 
   /* =========================
+     音
+  ========================== */
+
+function playTransitionSound() {
+  const sound = new Audio(
+    "https://marutsu222.github.io/undong/sound/next.mp3"
+  );
+
+  sound.play();
+}
+
+  /* =========================
      完了画面
   ========================== */
 
@@ -1403,7 +1084,6 @@
     timerInterval = null;
 
     isRunning = false;
-
     isPaused = false;
 
 
@@ -1431,27 +1111,23 @@
     timerInterval = null;
 
     isRunning = false;
-
     isPaused = false;
 
     currentExercise = 0;
-
     seconds = 0;
-
     totalSeconds = 0;
-
-    completed = false;
-
-
-    document.getElementById("workoutScreen").style.display =
-      "block";
 
 
     document.getElementById("completeScreen").style.display =
       "none";
 
+    document.getElementById("workoutScreen").style.display =
+      "none";
 
-    updateScreen();
+    document.getElementById("startScreen").style.display =
+      "block";
+
+    updateTimerDisplay();
   }
 
 
@@ -1477,7 +1153,7 @@
      初期表示
   ========================== */
 
-  updateScreen();
+  updateTimerDisplay();
 
 </script>
 

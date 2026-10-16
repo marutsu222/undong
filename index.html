@@ -915,9 +915,7 @@
 
     updateScreen();
 
-    // ユーザーのスタート操作後に音声を有効化
-    prepareAudio();
-
+    // MP3再生方式のため prepareAudio() は呼び出さず、タイマーを開始
     startTimer();
   }
 
